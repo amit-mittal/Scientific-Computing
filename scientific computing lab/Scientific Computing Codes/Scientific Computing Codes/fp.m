@@ -1,0 +1,10 @@
+function[output]=fp(a)
+tol=10^(-4);
+b=(0.5)*(a+(3/a));
+while(abs(b-a)>tol)
+    a=b;
+    b=(0.5)*(a+(3/a));
+    disp(b);
+end
+output=b;
+end

@@ -1,0 +1,29 @@
+function y=newton_cotes()
+
+n=9;
+a=0.5;
+b=1;
+h=(b-a)/n;
+x = a:h:b;
+
+f=@(x) x.^4;
+y = f(x);
+
+syms X;
+
+F=1;
+for i=1:length(x)
+    F=F*(X-x(i));
+end
+
+for i=1:length(x)
+    l(i) = F/(X-x(i));
+    for j=1:length(x)
+        if i~=j
+            l(i) = l(i)/(x(i)-x(j));
+        end
+    end
+    W(i) = int(l(i),a,b);
+end
+
+integral = eval(sum(W.*y))

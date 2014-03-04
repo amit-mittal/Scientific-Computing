@@ -1,0 +1,27 @@
+function[c]=secant(x0,x1,tol1,tol2);
+t1=min(tol1,tol2);
+t2=max(tol1,tol2);
+x=[];
+e=[];
+k=0;
+x(1)=x0;
+x(2)=x1;
+i=3;
+x(3)=x(2)-(f(x(2))*((x(2)-x(1))/(f(x(2))-f(x(1)))));
+e(1)=abs(x(2)-x(1));
+e(2)=abs(x(3)-x(2));
+while(abs(x(i-1)-x(i))>t1)
+    if(abs(x(i-1)-x(i))>t2)
+        k=1;
+        break;
+    end;
+    x(i+1)=x(i)-(f(x(i))*((x(i)-x(i-1))/(f(x(i))-f(x(i-1)))));
+    e(i)=abs(x(i+1)-x(i));
+    i=i+1;
+end;
+if(k>0.5)
+    c='no solution through newton method with this initial value';
+else
+    c=x(i);
+    loglog(e);
+end;

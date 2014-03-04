@@ -1,0 +1,35 @@
+function[e]=BVPf(a,b,alpha,beta,n)
+A=zeros(n-1,n-1);
+R=zeros(n-1,1);
+h=(b-a)/n;
+x=a:h:b;
+p1=inline('-2');
+q1=inline('-1');
+r1=inline('-x');
+for i=2:n-2
+    A(i,i)=(2/h/h)+q1(x(i))-(p1(x(i))/h);
+    A(i,i-1)=-((1/h/h));    
+    A(i,i+1)=-((1/h/h)-(p1(x(i))/h));
+    R(i,1)=r1(x(i));
+end
+A(1,2)=-((1/h/h)-(p1(x(1))/h));
+A(n-1,n-2)=-(1/h/h);  
+A(1,1)=(2/h/h)+q1(x(1))-(p1(x(1))/h);
+A(n-1,n-1)=(2/h/h)+q1(x(n-1))-(p1(x(n-1))/h);
+R(1,1)=r1(x(1))+((1/h/h)*alpha); 
+R(n-1,1)=r1(x(n-1))+(((1/h/h)-(p1(x(n-1))/h))*beta); 
+A;
+R;
+Y=A\R;
+figure(ceil(rand(1)*9999999));
+U(1)=alpha;
+U(n+1)=beta;
+U(2:n)=Y(1:n-1);
+%plot(x,U,'r');
+Y=(x-2)+(x.*exp(1-x))+(2.*(1-x).*exp(-x));
+%Y=alpha:(beta-alpha)/n:beta;
+er=abs((Y-U)./U);
+e=max(er);
+plot(x,U,'r',x,Y,'b');
+figure(ceil(rand(1)*9999999));
+plot(x,er);
